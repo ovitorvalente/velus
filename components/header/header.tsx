@@ -1,38 +1,57 @@
+import Link from "next/link"
 import { Button } from "../ui/button"
+import { ArrowUpRight } from "lucide-react"
+import { MobileHeader } from "./mobileHeader"
 
 export function Header() {
   const menuOption = [
     {
-      text: "Produtos",
+      text: "Pagina Inicial",
       link: "/",
+      active: true
     },
     {
-      text: "Blog",
-      link: "/",
+      text: "Serviços",
+      link: "/services",
+      active: false
     },
-    {
-      text: "Conteúdos",
-      link: "/",
-    },
+
     {
       text: "Quem Somos",
-      link: "/",
+      link: "/about",
+      active: false
     },
   ]
   return (
     <>
-      <header className="flex items-center justify-between fixed mt-8 p-2 rounded-full z-50 bg-zinc-50 gap-4 border">
-        <h2
-          style={{ fontFamily: 'HeadLineLogo, sans-serif' }}
-          className="font-bold mx-4 text-2xl text-foreground hover:text-violet-500 transition-all cursor-pointer">
-          velus
-        </h2>
-        <nav className="flex items-center justify-center">
-          {menuOption.map((item, index) => (
-            <Button className="font-bold rounded-full text-foreground hover:text-violet-500 transition-all hover:bg-violet-100" size={"lg"} variant={"ghost"} key={index}>{item.text}</Button>
-          ))}
-        </nav>
-        <Button className="bg-violet-500 hover:text-foreground font-bold rounded-full hover:bg-transparent hover:ring-2 ring-foreground" size={"lg"}>Contate-nos</Button>
+      <header className="flex items-center justify-center w-full fixed top-0 py-4 z-50 backdrop-blur-3xl border-b px-4">
+        <div className="flex items-center justify-between w-full max-w-5xl">
+          <div className="group flex items-center justify-center bg-orange-100 max-md:bg-orange-500 cursor-pointer hover:bg-orange-500 transition-all delay-75 duration-500 rounded-e-full rounded-bl-full p-1">
+            <h2
+              style={{ fontFamily: 'HeadLineLogo, sans-serif' }}
+              className="font-bold mx-4 text-2xl text-orange-500 group-hover:text-orange-50 max-md:text-orange-50 transition-all delay-75 duration-500">
+              Velus
+            </h2>
+          </div>
+          <nav className="flex items-center justify-center p-1 rounded-full bg-orange-50/50 border shadow-2xl gap-2 max-md:hidden">
+            {menuOption.map((item, index) => (
+              <Link
+                key={index} href={item.link}
+                className={`font-bold rounded-full px-4 py-2 transition-all delay-75 duration-700 ${item.active ? 'bg-orange-500 text-orange-50 hover:opacity-50 cursor-not-allowed' : 'text-orange-950 hover:text-orange-500'}`}
+              >
+                {item.text}
+              </Link>
+            ))}
+          </nav>
+          <Link href={"/me"} className="group max-md:hidden flex items-center justify-center gap-2 pl-4 pr-1 py-1 bg-orange-500 text-background hover:text-orange-950 font-bold rounded-full hover:bg-transparent ring-2 ring-orange-500 transition-all delay-75 duration-500">
+            Contate-nos
+            <Button size={"icon"} className="rounded-full group-hover:rotate-45 group-hover:bg-orange-500 transition-all delay-75 duration-500">
+              <ArrowUpRight />
+            </Button>
+          </Link>
+        </div>
+
+        <MobileHeader />
       </header >
     </>
   )
