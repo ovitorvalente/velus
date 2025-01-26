@@ -1,7 +1,7 @@
 "use client"
 import { AnimatePresence, motion } from "framer-motion";
 import { useState, useEffect } from "react";
-import { ArrowRight, Sparkles, Rocket, Target, Code, Gem, Users, TrendingUp, LucideArrowUpRight } from "lucide-react";
+import { ArrowRight, Sparkles, Rocket, Target, LucideArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
@@ -34,7 +34,7 @@ export function MainSession() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -20 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="font-bold text-white bg-orange-500 rounded-full px-6 py-0.5"
+          className="font-bold text-white bg-orange-500 rounded-full px-4 sm:px-6 py-0.5"
         >
           {words[currentWord]}
         </motion.span>
@@ -48,41 +48,17 @@ export function MainSession() {
     { icon: <Rocket className="w-5 h-5 text-orange-500" />, text: "Crescimento Efetivo" },
   ];
 
-  const cards = [
-    {
-      icon: <Code className="w-8 h-8 text-orange-500" />,
-      title: "Desenvolvimento Web",
-      description: "Criamos sites e aplicações web modernas e responsivas que encantam seus usuários."
-    },
-    {
-      icon: <Gem className="w-8 h-8 text-orange-500" />,
-      title: "Design UI/UX",
-      description: "Interfaces intuitivas e atraentes que proporcionam a melhor experiência para seus clientes."
-    },
-    {
-      icon: <Users className="w-8 h-8 text-orange-500" />,
-      title: "Consultoria Digital",
-      description: "Orientação estratégica para transformar seu negócio e destacá-lo no mercado digital."
-    },
-    {
-      icon: <TrendingUp className="w-8 h-8 text-orange-500" />,
-      title: "Marketing Digital",
-      description: "Estratégias eficientes para aumentar sua presença online e converter mais clientes."
-    }
-  ];
-
   return (
     <>
-      <div className="fixed inset-0 bg-gradient-to-br from-zinc-100 to-orange-50 -z-50" />
-      <section className="flex flex-col items-center w-full min-h-screen mt-24">
+      <section className="flex flex-col items-center w-full h-full mt-24 px-4 sm:px-6 lg:px-8">
         <div className="flex w-full max-w-7xl">
-          <div className="flex flex-col w-full mt-12 sm:mt-16 md:mt-20 lg:mt-24 gap-6 sm:gap-8 z-10 items-center">
+          <div className="flex flex-col w-full mt-12 sm:mt-16 md:mt-20 lg:mt-24 gap-6 sm:gap-8 z-10 items-center text-center">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h1 className="text-4xl text-center sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-relaxed max-w-4xl">
+              <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-foreground leading-tight sm:leading-relaxed max-w-4xl">
                 Conectando ideias ao sucesso{" "}
                 <TextChanger />
               </h1>
@@ -97,7 +73,7 @@ export function MainSession() {
               Transforme sua visão em soluções digitais inovadoras. Estamos aqui para impulsionar sua jornada no mundo digital com estratégias eficazes e personalizadas para o seu negócio crescer de forma sólida e sustentável.
             </motion.p>
 
-            <div className="flex flex-wrap gap-4 sm:gap-6">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.text}
@@ -116,11 +92,10 @@ export function MainSession() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="flex items-center justify-center gap-2 bg-orange-100/50 p-0.5 rounded-full shadow-2xl shadow-orange-100"
+              className="flex flex-col sm:flex-row items-center justify-center gap-4 bg-orange-100/50 p-1 sm:p-2 rounded-full shadow-2xl shadow-orange-100"
             >
               <Link
                 target="_blank"
-
                 href="https://cal.com/velus"
                 className="group border py-1 pr-1 pl-4 gap-2 flex items-center justify-center rounded-full bg-orange-500 text-background font-bold hover:translate-x-4 transition-all delay-75 duration-500"
               >
@@ -128,7 +103,6 @@ export function MainSession() {
                 <Button size={"icon"} className="rounded-full">
                   <LucideArrowUpRight className="group-hover:rotate-12 transition-all delay-75 duration-700" />
                 </Button>
-
               </Link>
               <Link
                 href={"/"}
@@ -140,35 +114,9 @@ export function MainSession() {
             </motion.div>
           </div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="w-full max-w-7xl mt-16 sm:mt-20 md:mt-24 lg:mt-32 mb-16 z-40"
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {cards.map((card, index) => (
-              <motion.div
-                key={card.title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.9 + index * 0.1 }}
-                className="bg-gradient-to-tl from-transparent via-foreground/5 to-transparent backdrop-blur-3xl p-4 sm:p-6 rounded-3xl hover:ring-2 hover:ring-orange-500 transition-all delay-75 duration-700 group"
-              >
-                <div className="w-12 sm:w-16 h-12 sm:h-16 rounded-xl flex items-center justify-center mb-4 bg-orange-500/10 group-hover:bg-orange-500/30 transition-all duration-1000 delay-75">
-                  {card.icon}
-                </div>
-                <h3 className="text-lg sm:text-xl font-bold text-orange-950 mb-2">{card.title}</h3>
-                <p className="text-sm sm:text-base text-orange-950/70">{card.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
         <div className="hidden lg:block absolute right-0 top-0 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl backdrop-blur-3xl -z-50" />
         <div className="hidden lg:block absolute right-48 bottom-24 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl -z-50" />
-      </section >
+      </section>
     </>
   );
 }
