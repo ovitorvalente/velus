@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { ArrowUpRight } from "lucide-react";
 import { MobileHeader } from "./mobileHeader";
+import Image from "next/image";
+import logo from "../../public/logo.svg";
 
 export function Header() {
   const pathname = usePathname();
@@ -14,23 +16,30 @@ export function Header() {
       text: "Página Inicial",
       link: "/",
     },
-    {
-      text: "Quem Somos",
-      link: "/about",
-    },
   ];
 
   return (
     <>
       <header className="flex items-center justify-center w-full fixed top-0 py-4 z-50 backdrop-blur-3xl border-b border-orange-50/10 px-4">
         <div className="flex items-center justify-between w-full max-w-5xl">
-          <div className="group flex items-center justify-center bg-orange-100 max-md:bg-orange-500 cursor-pointer hover:bg-orange-500 transition-all delay-75 duration-500 rounded-e-full rounded-bl-full p-1">
-            <Link href="/"
-              className="font-bold mx-4 text-2xl text-orange-500 group-hover:text-orange-50 max-md:text-orange-50 transition-all delay-75 duration-500"
-            >
-              Velus
-            </Link>
-          </div>
+          <Link
+            href={"/"}
+            className="flex items-end justify-center gap-2 group"
+          >
+            <Image
+              src={logo}
+              alt="Logo da Velus"
+              width={40}
+            />
+            <div className="flex flex-col items-start justify-start">
+              <span
+                className="font-bold text-2xl text-orange-950 group-hover:text-orange-500 transition-all delay-75 duration-500">
+                Velus
+              </span>
+              <span className="w-0 h-0.5 bg-orange-500 group-hover:w-full transition-all delay-75 duration-1000" />
+            </div>
+
+          </Link>
           <nav className="flex items-center justify-center p-1 rounded-full bg-orange-50/50 border shadow-2xl gap-2 max-md:hidden">
             {menuOption.map((item, index) => (
               <Link
@@ -64,7 +73,7 @@ export function Header() {
         </div>
 
         <MobileHeader />
-      </header>
+      </header >
     </>
   );
 }
