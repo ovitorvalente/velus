@@ -1,12 +1,9 @@
-"use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { ArrowUpRight } from "lucide-react";
 import { MobileHeader } from "./mobileHeader";
 import Image from "next/image";
-import logo from "../../public/logo.svg";
 
 export function Header() {
   const pathname = usePathname();
@@ -26,11 +23,11 @@ export function Header() {
             href={"/"}
             className="flex items-end justify-center gap-2 group"
           >
-            <Image
+            {/* <Image
               src={logo}
               alt="Logo da Velus"
               width={40}
-            />
+            /> */}
             <div className="flex flex-col items-start justify-start">
               <span
                 className="font-bold text-2xl text-orange-950 group-hover:text-orange-500 transition-all delay-75 duration-500">
