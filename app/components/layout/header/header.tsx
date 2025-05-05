@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui (shadcn)/button";
 import { ChevronRight, Menu, X } from "lucide-react";
 import { Logo } from "@/components/logo";
 import { MainNav } from "../main-nav";
