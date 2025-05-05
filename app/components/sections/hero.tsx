@@ -1,7 +1,7 @@
 "use client";
 import { useRef } from "react";
 import { ArrowDown, ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui (shadcn)/button";
 import { useCountdown } from "@/hooks/use-countdown";
 import { useVisitorCounter } from "@/hooks/use-visitor-counter";
 import { ScrollReveal } from "@/components/scroll-reveal";
