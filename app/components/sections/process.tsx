@@ -1,11 +1,9 @@
 "use client"
 import { ScrollReveal } from "@/components/scroll-reveal"
-import { useInView } from "@/hooks/use-in-view"
 import { useRef } from "react"
 
 export function ProcessSection() {
   const processRef = useRef<HTMLDivElement>(null)
-  const processInView = useInView(processRef)
 
   return (
     <section id="process" ref={processRef} className="py-24 relative bg-black/50">
