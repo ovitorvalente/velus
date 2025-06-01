@@ -3,11 +3,9 @@ import { useRef } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ScrollReveal } from "@/components/scroll-reveal"
-import { useInView } from "@/hooks/use-in-view"
 
 export function PortfolioSection() {
   const portfolioRef = useRef<HTMLDivElement>(null)
-  const portfolioInView = useInView(portfolioRef)
 
   return (
     <section id="portfolio" ref={portfolioRef} className="py-24 relative">

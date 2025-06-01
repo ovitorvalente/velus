@@ -1,14 +1,11 @@
-
 "use client"
 import { useRef } from "react"
 import { Clock, Gift } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useInView } from "@/hooks/use-in-view"
 import { ScrollReveal } from "@/components/scroll-reveal"
 
 export function ContactSection() {
   const contactRef = useRef<HTMLDivElement | null>(null)
-  const contactInView = useInView(contactRef)
 
   return (
     <section id="contact" ref={contactRef} className="py-24 relative bg-black/50">

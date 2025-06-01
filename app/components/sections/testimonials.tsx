@@ -1,12 +1,10 @@
 "use client"
 import { useRef } from "react"
 import { Star } from "lucide-react"
-import { useInView } from "@/hooks/use-in-view"
 import { ScrollReveal } from "@/components/scroll-reveal"
 
 export function TestimonialsSection() {
   const testimonialsRef = useRef<HTMLDivElement>(null)
-  const testimonialsInView = useInView(testimonialsRef)
 
   return (
     <section id="testimonials" ref={testimonialsRef} className="py-24 relative">
@@ -33,8 +31,8 @@ export function TestimonialsSection() {
                   ))}
                 </div>
                 <p className="text-gray-300 mb-6 italic">
-                  "A Velus transformou completamente nossa presença online. A equipe entregou um site que não apenas tem
-                  uma aparência incrível, mas também tem um desempenho excepcional."
+                  &ldquo;A Velus transformou completamente nossa presença online. A equipe entregou um site que não apenas tem
+                  uma aparência incrível, mas também tem um desempenho excepcional.&rdquo;
                 </p>
                 <div className="flex items-center gap-4">
                   <div className="w-12 h-12 bg-orange-500 flex items-center justify-center rounded-full">
