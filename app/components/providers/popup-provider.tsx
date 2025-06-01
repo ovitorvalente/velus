@@ -4,6 +4,7 @@ import { createContext, useState, useEffect, type ReactNode } from "react"
 
 export const PopupContext = createContext({
   showPopup: false,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   setShowPopup: (show: boolean) => { },
 })
 
