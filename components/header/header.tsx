@@ -3,7 +3,6 @@ import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import { ArrowUpRight } from "lucide-react";
 import { MobileHeader } from "./mobileHeader";
-import Image from "next/image";
 
 export function Header() {
   const pathname = usePathname();
