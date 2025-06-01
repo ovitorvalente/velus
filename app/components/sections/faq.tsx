@@ -1,7 +1,6 @@
 "use client"
 import { useRef } from "react"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-import { useInView } from "@/hooks/use-in-view"
 import { SectionHeader } from "@/components/section-header"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { FaqContact } from "@/components/faq-contact"
@@ -51,7 +50,6 @@ const faqItems = [
 
 export function FaqSection() {
   const faqRef = useRef<HTMLDivElement>(null)
-  const faqInView = useInView(faqRef)
 
   return (
     <section id="faq" ref={faqRef} className="py-24 relative bg-black/50">
