@@ -1,8 +1,0 @@
-export { HeroSection } from "./hero"
-export { ServicesSection } from "./services"
-export { StatsSection } from "./stats"
-export { PortfolioSection } from "./portfolio"
-export { ProcessSection } from "./process"
-export { TestimonialsSection } from "./testimonials"
-export { ContactSection } from "./contact"
-export { FaqSection } from "./faq"

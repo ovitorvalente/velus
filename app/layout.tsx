@@ -1,9 +1,9 @@
-import type React from "react"
-import "./globals.css"
-import { Inter } from "next/font/google"
-import { ThemeProvider } from "@/components/theme-provider"
+import type React from "react";
+import "./globals.css";
+import { Inter } from "next/font/google";
+import { Header } from "@/components/layout/header";
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Velus | Desenvolvimento Web & Arte Digital",
@@ -13,25 +13,24 @@ export const metadata = {
     title: "Velus | Desenvolvimento Web & Arte Digital",
     description:
       "Transformando ideias em websites impressionantes e arte digital. Criamos experiências digitais que cativam e convertem.",
-    url: "https://velus.com",
+    url: "https://grupovelus.com/",
     siteName: "Velus",
     locale: "pt_BR",
     type: "website",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" suppressHydrationWarning>
-      <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+    <html lang="pt-BR" suppressHydrationWarning className="dark">
+      <body className={`${inter.className} mx-auto`}>
+        <Header />
+        {children}
       </body>
     </html>
-  )
+  );
 }
