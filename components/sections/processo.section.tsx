@@ -1,258 +1,335 @@
 "use client";
 
-import {
-  Target,
-  Palette,
-  Rocket,
-  Trophy,
-  Plus,
-  ChevronRight,
-} from "lucide-react";
+import { Plus, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ProcessModal } from "../processo/process-modal";
-
-// Tipos TypeScript para melhor tipagem
-interface ProcessStep {
-  id: number;
-  title: string;
-  description: string;
-  icon: React.ComponentType<{ className?: string }>;
-  details: {
-    overview: string;
-    benefits: string[];
-    duration: string;
-    deliverables: string[];
-    whyImportant: string;
-  };
-}
-
-// Dados das etapas do processo
-const PROCESS_STEPS: ProcessStep[] = [
-  {
-    id: 1,
-    title: "Descobrindo o Tesouro Escondido",
-    description:
-      "Imagine que você tem uma mina de ouro no seu quintal, mas não sabe onde cavar. Nós somos os especialistas que vão te mostrar exatamente onde está o tesouro. Através de uma conversa estratégica, descobrimos o que realmente importa para o seu negócio e criamos um mapa do tesouro personalizado.",
-    icon: Target,
-    details: {
-      overview:
-        "Esta é a fase fundamental onde estabelecemos as bases sólidas para o sucesso do seu projeto. Através de uma análise profunda e estratégica, criamos um roadmap claro e executável que transforma sua visão em um plano de ação concreto.",
-      benefits: [
-        "Briefing detalhado e personalizado para seu negócio",
-        "Análise completa de mercado e concorrência",
-        "Estratégia customizada para seus objetivos específicos",
-        "Cronograma realista e flexível",
-        "Definição clara de métricas de sucesso",
-      ],
-      duration: "1-2 semanas",
-      deliverables: [
-        "Documento de estratégia completo",
-        "Cronograma detalhado do projeto",
-        "Análise de viabilidade técnica",
-        "Proposta comercial detalhada",
-      ],
-      whyImportant:
-        "Sem uma estratégia clara, você está navegando no escuro. Esta fase garante que cada decisão subsequente seja baseada em dados e insights reais, não em suposições.",
-    },
-  },
-  {
-    id: 2,
-    title: "Transformando Sonhos em Realidade",
-    description:
-      "Aqui é onde a mágica acontece! Como um alquimista transformando chumbo em ouro, nós transformamos suas ideias em algo que seus clientes vão amar. Cada pixel, cada cor, cada movimento é pensado para fazer seu coração bater mais forte quando ver o resultado final.",
-    icon: Palette,
-    details: {
-      overview:
-        "Transformamos conceitos abstratos em realidade visual tangível. Cada elemento é cuidadosamente projetado para transmitir a essência da sua marca e criar conexões emocionais profundas com seu público-alvo.",
-      benefits: [
-        "Design responsivo para todos os dispositivos",
-        "UX otimizada baseada em pesquisas de usuário",
-        "Branding consistente e memorável",
-        "Protótipos interativos e funcionais",
-        "Sistema de design escalável para o futuro",
-      ],
-      duration: "2-4 semanas",
-      deliverables: [
-        "Moodboard e conceito visual",
-        "Wireframes e protótipos",
-        "Sistema de design completo",
-        "Guia de marca atualizado",
-      ],
-      whyImportant:
-        "O design é a primeira impressão que seus clientes têm da sua marca. Um design bem executado pode aumentar significativamente a conversão e a percepção de valor.",
-    },
-  },
-  {
-    id: 3,
-    title: "Construindo o Futuro, Hoje",
-    description:
-      "É hora de colocar a mão na massa! Como um mestre artesão, cada linha de código, cada funcionalidade é criada com amor e atenção obsessiva aos detalhes. Não queremos apenas um site que funcione - queremos um que faça seus concorrentes ficarem com inveja.",
-    icon: Rocket,
-    details: {
-      overview:
-        "Executamos cada etapa com precisão cirúrgica, utilizando as melhores práticas e tecnologias de ponta. Garantimos que seu projeto não apenas funcione, mas supere todas as expectativas e estabeleça novos padrões de qualidade.",
-      benefits: [
-        "Desenvolvimento ágil com entregas contínuas",
-        "Testes rigorosos em todas as fases",
-        "Integração com APIs e sistemas existentes",
-        "Otimização de performance e SEO",
-        "Código limpo e manutenível para o futuro",
-      ],
-      duration: "3-6 semanas",
-      deliverables: [
-        "Produto funcional e testado",
-        "Documentação técnica completa",
-        "Relatórios de performance",
-        "Guia de manutenção",
-      ],
-      whyImportant:
-        "A qualidade do desenvolvimento determina a estabilidade, performance e escalabilidade do seu projeto. Um código bem estruturado economiza tempo e dinheiro no longo prazo.",
-    },
-  },
-  {
-    id: 4,
-    title: "Entregando o Impossível",
-    description:
-      "Chegou a hora da verdade! Não apenas entregamos seu projeto, mas garantimos que ele seja tão incrível que você vai querer mostrar para todo mundo. É como receber as chaves de um carro esportivo - você não consegue esperar para sair por aí e impressionar.",
-    icon: Trophy,
-    details: {
-      overview:
-        "Não apenas entregamos seu projeto, mas garantimos que ele esteja perfeitamente otimizado e pronto para gerar resultados excepcionais para seu negócio. Implementamos melhorias contínuas e suporte proativo.",
-      benefits: [
-        "Deploy otimizado e seguro",
-        "Monitoramento 24/7 do sistema",
-        "Suporte contínuo e proativo",
-        "Relatórios detalhados de performance",
-        "Plano de evolução futura",
-      ],
-      duration: "1-2 semanas",
-      deliverables: [
-        "Projeto finalizado e otimizado",
-        "Relatório de entrega completo",
-        "Plano de manutenção contínua",
-        "Treinamento da equipe",
-      ],
-      whyImportant:
-        "A entrega não é o fim, é o começo de uma nova jornada. O suporte contínuo garante que seu projeto continue gerando valor e crescendo com seu negócio.",
-    },
-  },
-];
+import { ProcessStep, PROCESS_STEPS } from "@/data/process-steps.data";
 
 // Componente reutilizável para os cards de processo
 interface ProcessCardProps {
   step: ProcessStep;
   onCardClick: (step: ProcessStep) => void;
+  index: number;
 }
 
-function ProcessCard({ step, onCardClick }: ProcessCardProps) {
-  const { title, description, icon: Icon } = step;
+// Componente do Card de Processo
+function CardProcesso({ step, onCardClick, index }: ProcessCardProps) {
+  const { title, description } = step;
 
   return (
-    <div
-      className="group relative cursor-pointer rounded-2xl bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-md"
+    <motion.div
+      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      transition={{
+        duration: 0.5,
+        ease: "easeOut",
+        delay: index * 0.1,
+      }}
+      whileHover={{
+        y: -8,
+        scale: 1.02,
+        rotate: 1,
+        transition: { duration: 0.2, ease: "easeOut" },
+      }}
+      className="group relative cursor-pointer rounded-2xl border border-foreground bg-white p-4 shadow-sm transition-all duration-300 hover:border-gray-200 hover:shadow-2xl sm:p-6"
       onClick={() => onCardClick(step)}
     >
       {/* Ícone */}
-      <div className="mb-4">
-        <Icon className="h-8 w-8 text-gray-800" />
-      </div>
+      <IconCard step={step} />
 
       {/* Título */}
-      <h3 className="mb-3 text-lg font-semibold text-gray-900">{title}</h3>
+      <TituloCard title={title} />
 
       {/* Descrição */}
-      <p className="mb-4 text-sm leading-relaxed text-gray-600">
-        {description}
-      </p>
+      <DescricaoCard description={description} />
 
       {/* Botão de Expansão */}
-      <div className="absolute bottom-4 right-4">
-        <button
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white shadow-lg transition-all duration-200 hover:scale-105 hover:bg-gray-900"
-          onClick={(e) => {
-            e.stopPropagation();
-            onCardClick(step);
-          }}
-        >
-          <Plus className="h-4 w-4" />
-        </button>
-      </div>
-    </div>
+      <BotaoExpansao onCardClick={onCardClick} step={step} />
+    </motion.div>
   );
 }
 
+// Componente do Ícone do Card
+function IconCard({ step }: { step: ProcessStep }) {
+  const { icon: Icon } = step;
+
+  return (
+    <motion.div className="mb-3 transition-all duration-300 sm:mb-4 md:group-hover:rotate-6 md:group-hover:scale-105">
+      <Icon className="size-6 text-gray-800 sm:size-8" />
+    </motion.div>
+  );
+}
+
+// Componente do Título do Card
+function TituloCard({ title }: { title: string }) {
+  return (
+    <motion.h3
+      className="mb-2 text-base font-semibold text-gray-900 sm:mb-3 sm:text-lg"
+      whileHover={{ color: "#1f2937" }}
+      transition={{ duration: 0.2 }}
+    >
+      {title}
+    </motion.h3>
+  );
+}
+
+// Componente da Descrição do Card
+function DescricaoCard({ description }: { description: string }) {
+  return (
+    <motion.p
+      className="mb-3 text-xs leading-relaxed text-gray-600 sm:mb-4 sm:text-sm"
+      whileHover={{ color: "#374151" }}
+      transition={{ duration: 0.2 }}
+    >
+      {description}
+    </motion.p>
+  );
+}
+
+// Componente do Botão de Expansão
+function BotaoExpansao({
+  onCardClick,
+  step,
+}: {
+  onCardClick: (step: ProcessStep) => void;
+  step: ProcessStep;
+}) {
+  return (
+    <motion.div
+      className="absolute bottom-3 right-3 transition-all duration-300 group-hover:rotate-180 group-hover:scale-105 sm:bottom-4 sm:right-4"
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <motion.button
+        className="flex size-7 items-center justify-center rounded-full bg-gray-800 text-white shadow-lg transition-all duration-300 group-hover:scale-105 group-hover:bg-gray-900 sm:size-8"
+        onClick={(e) => {
+          e.stopPropagation();
+          onCardClick(step);
+        }}
+        whileHover={{
+          backgroundColor: "#111827",
+          boxShadow:
+            "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        }}
+        transition={{ duration: 0.2 }}
+      >
+        <Plus className="size-3 sm:size-4" />
+      </motion.button>
+    </motion.div>
+  );
+}
+
+// Componente do Badge do Header
+function BadgeHeader() {
+  return (
+    <motion.div
+      className="mb-4 inline-flex items-center rounded-full bg-gradient-to-r from-blue-100 to-transparent p-2 text-blue-700"
+      transition={{ duration: 0.2 }}
+    >
+      <motion.span
+        className="text-xs font-medium sm:text-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        ✨ Transforme sua visão em realidade
+      </motion.span>
+    </motion.div>
+  );
+}
+
+// Componente do Título Principal
+function TituloPrincipal() {
+  return (
+    <motion.h2
+      className="mb-4 text-2xl font-bold leading-tight text-gray-900 sm:text-3xl lg:text-4xl"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+    >
+      Por que centenas de empresas{" "}
+      <motion.span
+        className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+        whileHover={{
+          backgroundPosition: "100% 0%",
+          transition: { duration: 0.3 },
+        }}
+      >
+        escolhem a Velus
+      </motion.span>{" "}
+      para seus projetos digitais?
+    </motion.h2>
+  );
+}
+
+// Componente da Descrição Principal
+function DescricaoPrincipal() {
+  return (
+    <motion.p
+      className="text-base leading-relaxed text-gray-600 sm:text-lg"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
+    >
+      Descubra como transformamos ideias em{" "}
+      <motion.span
+        className="font-bold text-gray-900"
+        whileHover={{ color: "#1f2937" }}
+        transition={{ duration: 0.2 }}
+      >
+        resultados extraordinários
+      </motion.span>{" "}
+      que fazem seu negócio crescer exponencialmente.
+    </motion.p>
+  );
+}
+
+// Componente do Botão CTA
+function BotaoCTA() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.6, duration: 0.6, ease: "easeOut" }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+    >
+      <Link
+        href="#contato"
+        className="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-blue-600 px-4 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-xl sm:w-auto sm:px-6"
+      >
+        Fale conosco
+        <SetaAnimada />
+      </Link>
+    </motion.div>
+  );
+}
+
+// Componente da Seta Animada
+function SetaAnimada() {
+  return (
+    <motion.div
+      animate={{ x: [0, 3, 0] }}
+      transition={{
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut",
+      }}
+    >
+      <ChevronRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+    </motion.div>
+  );
+}
+
+// Componente do Header da Seção
+function CabecalhoSecao() {
+  return (
+    <motion.div
+      className="mb-12 flex flex-col gap-6 sm:mb-16 sm:flex-row sm:items-center sm:justify-between"
+      variants={variantesCabecalho}
+    >
+      <div className="max-w-3xl">
+        <BadgeHeader />
+        <TituloPrincipal />
+        <DescricaoPrincipal />
+      </div>
+      <BotaoCTA />
+    </motion.div>
+  );
+}
+
+// Componente dos Cards do Processo
+function CardsProcesso({
+  onCardClick,
+}: {
+  onCardClick: (step: ProcessStep) => void;
+}) {
+  return (
+    <motion.div
+      className="grid gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4"
+      variants={variantesContainer}
+    >
+      {PROCESS_STEPS.map((step, index) => (
+        <CardProcesso
+          key={step.id}
+          step={step}
+          index={index}
+          onCardClick={onCardClick}
+        />
+      ))}
+    </motion.div>
+  );
+}
+
+// Variantes de animação para o container
+const variantesContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+// Variantes para os elementos do header
+const variantesCabecalho = {
+  hidden: { opacity: 0, y: -20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
 // Componente principal da seção
 export function ProcessoSection() {
-  const [selectedStep, setSelectedStep] = useState<ProcessStep | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [etapaSelecionada, setEtapaSelecionada] = useState<ProcessStep | null>(
+    null,
+  );
+  const [modalAberto, setModalAberto] = useState(false);
 
-  const handleCardClick = (step: ProcessStep) => {
-    setSelectedStep(step);
-    setIsModalOpen(true);
+  const aoClicarCard = (step: ProcessStep) => {
+    setEtapaSelecionada(step);
+    setModalAberto(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setSelectedStep(null);
+  const aoFecharModal = () => {
+    setModalAberto(false);
+    setEtapaSelecionada(null);
   };
 
   return (
-    <section id="processo" className="m-8 rounded-3xl bg-gray-50 py-20">
-      <div className="mx-auto max-w-7xl px-6">
+    <motion.section
+      id="processo"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      variants={variantesContainer}
+      className="m-2 rounded-3xl bg-gray-50 py-4 sm:m-4 sm:py-12"
+    >
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
         {/* Header da Seção */}
-        <div className="mb-16 flex items-center justify-between">
-          <div className="max-w-3xl">
-            <div className="mb-4 inline-flex items-center rounded-full bg-blue-50 px-4 py-2 text-blue-700">
-              <span className="text-sm font-medium">
-                ✨ Transforme sua visão em realidade
-              </span>
-            </div>
-
-            <h2 className="mb-4 text-4xl font-bold leading-tight text-gray-900">
-              Por que centenas de empresas{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                escolhem a Velus
-              </span>{" "}
-              para seus projetos digitais?
-            </h2>
-
-            <p className="text-lg leading-relaxed text-gray-600">
-              Descubra como transformamos ideias em{" "}
-              <span className="font-semibold text-gray-800">
-                resultados extraordinários
-              </span>{" "}
-              que fazem seu negócio crescer exponencialmente.
-            </p>
-          </div>
-
-          <Link
-            href="#contato"
-            className="group inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-xl"
-          >
-            Fale conosco
-            <ChevronRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-          </Link>
-        </div>
+        <CabecalhoSecao />
 
         {/* Cards do Processo */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {PROCESS_STEPS.map((step) => (
-            <ProcessCard
-              key={step.id}
-              step={step}
-              onCardClick={handleCardClick}
-            />
-          ))}
-        </div>
+        <CardsProcesso onCardClick={aoClicarCard} />
 
         {/* Modal de Detalhes */}
-        <ProcessModal
-          step={selectedStep}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-        />
+        <AnimatePresence>
+          {modalAberto && (
+            <ProcessModal
+              step={etapaSelecionada}
+              steps={PROCESS_STEPS}
+              isOpen={modalAberto}
+              onClose={aoFecharModal}
+            />
+          )}
+        </AnimatePresence>
       </div>
-    </section>
+    </motion.section>
   );
 }
