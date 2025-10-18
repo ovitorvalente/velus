@@ -371,6 +371,7 @@ function BotoesNavegacao({
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="flex gap-3"
     >
+      {/* Botão Fechar - sempre visível */}
       <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
         <Button
           type="button"
@@ -382,6 +383,8 @@ function BotoesNavegacao({
           Fechar
         </Button>
       </motion.div>
+
+      {/* Botão Próximo ou Entendi baseado na etapa */}
       {etapaAtual < totalEtapas ? (
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           <Button
@@ -479,6 +482,13 @@ export function ProcessModal({
   };
 
   const aoFechar = () => {
+    // Reset da etapa atual e fechamento do modal
+    setEtapaAtual(1);
+    onClose();
+  };
+
+  // Função para fechar o modal via ESC ou clique fora
+  const handleClose = () => {
     setEtapaAtual(1);
     onClose();
   };
@@ -488,8 +498,7 @@ export function ProcessModal({
       open={isOpen}
       onOpenChange={(open) => {
         if (!open) {
-          setEtapaAtual(1);
-          onClose();
+          handleClose();
         }
       }}
     >
